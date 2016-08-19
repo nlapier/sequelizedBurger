@@ -26,5 +26,8 @@
     "mysql": "^2.11.1",
     "sequelize": "^3.24.1",
     "sequelize-cli": "^2.4.0"
+  },
+  "devDependencies": {
+    "jshint": "^2.9.3"
   }
 }
