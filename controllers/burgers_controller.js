@@ -33,7 +33,7 @@ router.get("/", function(request,response){
 
 //Add a burger
 router.post("/create", function(request, response) {
-	models.burgers.create({
+	models.Burgers.create({
 		burgerName: request.body.burgerName
 	}).then(function(){
 		response.redirect("/");
@@ -42,7 +42,7 @@ router.post("/create", function(request, response) {
 
 //Devour a burger
 router.post("/devoured/:id", function(request, response){
-	models.burgers.update(
+	models.Burgers.update(
 		{devoured: true},
 		{where: {id: request.body.id}}
 	).then(function(){
