@@ -7,7 +7,7 @@ var router = express.Router();
 
 //"Home" get route
 router.get("/", function(request,response){
-	models.burgers.findAll().then(function(data){
+	models.Burgers.findAll().then(function(data){
 		//Loop through all burgers and sort them into "ready" or "devoured" arrays
 		var devouredBurgers = [];
 		var freshBurgers = [];
@@ -34,7 +34,7 @@ router.get("/", function(request,response){
 //Add a burger
 router.post("/create", function(request, response) {
 	models.burgers.create({
-		burgerName: request.body.burgerNAme;
+		burgerName: request.body.burgerName
 	}).then(function(){
 		response.redirect("/");
 	});

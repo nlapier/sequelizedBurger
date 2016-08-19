@@ -32,7 +32,7 @@ app.use("/create", routes);
 
 //Port Listener
 var PORT = 3000;
-app.listen(PORT, function{
+app.listen(PORT, function(){
 	console.log("Listening on port " + PORT)
 });
 
