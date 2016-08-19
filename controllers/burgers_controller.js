@@ -6,48 +6,47 @@ var express = require("express");
 var router = express.Router();
 
 //"Home" get route
-router.get('/', function(request,response) {
-		models.burgers.findAll().then(function(data){
-			//Loop through all burgers and sort them into "ready" or "devoured" arrays
-			var devouredBurgers = [];
-			var freshBurgers = [];
+router.get("/", function(request,response){
+	models.burgers.findAll().then(function(data){
+		//Loop through all burgers and sort them into "ready" or "devoured" arrays
+		var devouredBurgers = [];
+		var freshBurgers = [];
 
-			for (var i = 0; i < data.length; i++){
-				if (data[i].devoured){
-					devouredBurgers.push(data[i]);
-				} else{
-					freshBurgers.push(data[i]);
-				}
-			};
+		for (var i = 0; i < data.length; i++){
+			if (data[i].devoured){
+				devouredBurgers.push(data[i]);
+			} else{
+				freshBurgers.push(data[i]);
+			}
+		};
 
+		var allBurgers = {
+			fresh: freshBurgers,
+			devoured: devouredBurgers
+		};
 
-		});
-});
-
-router.get('/burgers', function(request,response) {
-	//express callback response by calling burger.selectAllBurger
-	burger.all(function(burger_data){
-		//wrapper for orm.js that using MySQL query callback will return burger_data, render to index with handlebar
-		response.render('index', {burger_data});
+		response.render("index", allBurgers)
 	});
 });
 
-//post route -> back to index
-router.post('/burgers/create', function(request, response) {
-	//takes the request object using it as input for buger.addBurger
-	burger.create(request.body.burger_name, function(result){
-		//wrapper for orm.js that using MySQL insert callback will return a log to console, render back to index with handle
-		console.log(result);
-		response.redirect('/');
+
+
+//Add a burger
+router.post("/create", function(request, response) {
+	models.burgers.create({
+		burgerName: request.body.burgerNAme;
+	}).then(function(){
+		response.redirect("/");
 	});
 });
 
-//put route -> back to index
-router.put('/burgers/update', function(request,response){
-	burger.update(request.body.burger_id, function(result){
-		//wrapper for orm.js that using MySQL update callback will return a log to console, render back to index with handle
-		console.log(result);
-		response.redirect('/');
+//Devour a burger
+router.post("/devoured/:id", function(request, response){
+	models.burgers.update(
+		{devoured: true},
+		{where: {id: request.body.id}}
+	).then(function(){
+		response.redirect("/");
 	});
 });
 
